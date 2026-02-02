@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft, Check } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, Loader2 } from "lucide-react";
+import { submitInquiry } from "@/app/(marketing)/contact/actions";
 
 const budgetOptions = [
   { value: "starter", label: "Starter", range: "Under $3K/mo" },
@@ -28,19 +29,60 @@ export function IntakeForm() {
     details: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const [isPending, startTransition] = useTransition();
 
   const totalSteps = 4;
 
   const updateField = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear field error on change
+    setErrors((prev) => {
+      const next = { ...prev };
+      delete next[field];
+      delete next._form;
+      return next;
+    });
   };
 
-  const next = () => setStep((s) => Math.min(s + 1, totalSteps));
+  const canAdvance = (): boolean => {
+    switch (step) {
+      case 0:
+        return formData.name.trim() !== "" && formData.email.trim() !== "";
+      case 1:
+        return formData.services !== "";
+      case 2:
+        return formData.budget !== "";
+      default:
+        return true;
+    }
+  };
+
+  const next = () => {
+    if (canAdvance()) {
+      setStep((s) => Math.min(s + 1, totalSteps));
+    }
+  };
   const prev = () => setStep((s) => Math.max(s - 1, 0));
 
   const handleSubmit = () => {
-    // Will be wired to Server Action in Phase 0C
-    setSubmitted(true);
+    startTransition(async () => {
+      const result = await submitInquiry(formData);
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        setErrors(result.errors);
+        // Navigate to the step with the first error
+        const errorFields = Object.keys(result.errors);
+        if (errorFields.includes("name") || errorFields.includes("email")) {
+          setStep(0);
+        } else if (errorFields.includes("services")) {
+          setStep(1);
+        } else if (errorFields.includes("budget")) {
+          setStep(2);
+        }
+      }
+    });
   };
 
   if (submitted) {
@@ -85,24 +127,41 @@ export function IntakeForm() {
         </div>
 
         <div className="mt-8 rounded-xl border border-border/60 bg-card/50 p-8">
+          {/* Form-level error */}
+          {errors._form && (
+            <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+              {errors._form[0]}
+            </div>
+          )}
+
           {/* Step 0: Contact Info */}
           {step === 0 && (
             <div className="space-y-4">
               <h3 className="font-semibold">Contact Information</h3>
-              <input
-                type="text"
-                placeholder="Full name"
-                value={formData.name}
-                onChange={(e) => updateField("name", e.target.value)}
-                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e) => updateField("email", e.target.value)}
-                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-              />
+              <div>
+                <input
+                  type="text"
+                  placeholder="Full name *"
+                  value={formData.name}
+                  onChange={(e) => updateField("name", e.target.value)}
+                  className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+                />
+                {errors.name && (
+                  <p className="mt-1 text-xs text-red-400">{errors.name[0]}</p>
+                )}
+              </div>
+              <div>
+                <input
+                  type="email"
+                  placeholder="Email *"
+                  value={formData.email}
+                  onChange={(e) => updateField("email", e.target.value)}
+                  className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+                />
+                {errors.email && (
+                  <p className="mt-1 text-xs text-red-400">{errors.email[0]}</p>
+                )}
+              </div>
               <input
                 type="tel"
                 placeholder="Phone (optional)"
@@ -124,6 +183,9 @@ export function IntakeForm() {
           {step === 1 && (
             <div className="space-y-4">
               <h3 className="font-semibold">What services do you need?</h3>
+              {errors.services && (
+                <p className="text-xs text-red-400">{errors.services[0]}</p>
+              )}
               <div className="space-y-2">
                 {serviceOptions.map((opt) => (
                   <button
@@ -146,6 +208,9 @@ export function IntakeForm() {
           {step === 2 && (
             <div className="space-y-4">
               <h3 className="font-semibold">Monthly budget range</h3>
+              {errors.budget && (
+                <p className="text-xs text-red-400">{errors.budget[0]}</p>
+              )}
               <div className="space-y-2">
                 {budgetOptions.map((opt) => (
                   <button
@@ -223,7 +288,7 @@ export function IntakeForm() {
             <Button
               variant="ghost"
               onClick={prev}
-              disabled={step === 0}
+              disabled={step === 0 || isPending}
               className="gap-1"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -231,14 +296,31 @@ export function IntakeForm() {
             </Button>
 
             {step < totalSteps ? (
-              <Button onClick={next} className="gap-1">
+              <Button
+                onClick={next}
+                disabled={!canAdvance()}
+                className="gap-1"
+              >
                 Next
                 <ArrowRight className="h-4 w-4" />
               </Button>
             ) : (
-              <Button onClick={handleSubmit} className="gap-1">
-                Submit
-                <Check className="h-4 w-4" />
+              <Button
+                onClick={handleSubmit}
+                disabled={isPending}
+                className="gap-1"
+              >
+                {isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    Submit
+                    <Check className="h-4 w-4" />
+                  </>
+                )}
               </Button>
             )}
           </div>

@@ -476,11 +476,11 @@ Motion/polish:
 **Goal:** Wire intake form to Supabase + email notifications so leads are captured.
 
 **Tasks:**
-- [ ] Run Supabase migration to create `inquiries` table — `supabase/migrations/001_create_inquiries.sql`
-- [ ] Create Server Action to insert inquiry into Supabase — `src/app/(marketing)/contact/actions.ts`
-- [ ] Add form validation with Zod schema — `src/lib/validations/inquiry.ts`
-- [ ] Send email notification on new inquiry (Resend or Supabase Edge Function) — `src/app/api/inquiries/route.ts` or edge function
-- [ ] Add success/error states to intake form UI
+- [x] Run Supabase migration to create `inquiries` table — `supabase/migrations/001_create_inquiries.sql`
+- [x] Create Server Action to insert inquiry into Supabase — `src/app/(marketing)/contact/actions.ts`
+- [x] Add form validation with Zod schema — `src/lib/validations/inquiry.ts`
+- [x] Send email notification on new inquiry (Resend or Supabase Edge Function) — `src/app/api/inquiries/route.ts` or edge function
+- [x] Add success/error states to intake form UI
 - [ ] Optional: embed Calendly widget on contact page
 
 **Acceptance:**
