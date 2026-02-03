@@ -1,27 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { login } from "./actions";
+import { Loader2, ArrowLeft } from "lucide-react";
+import { resetPassword } from "./actions";
 
-export default function LoginPage() {
-  return (
-    <Suspense>
-      <LoginForm />
-    </Suspense>
-  );
-}
-
-function LoginForm() {
-  const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") ?? undefined;
-
+export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [sent, setSent] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -29,12 +17,40 @@ function LoginForm() {
     setError(null);
 
     startTransition(async () => {
-      const result = await login({ email, password, redirectTo });
-      if (result.error) {
+      const result = await resetPassword(email);
+      if (result.success) {
+        setSent(true);
+      } else {
         setError(result.error);
       }
     });
   };
+
+  if (sent) {
+    return (
+      <div className="w-full max-w-sm space-y-6 text-center">
+        <div>
+          <Link href="/" className="text-lg font-bold tracking-tight">
+            CEPHEI<span className="text-muted-foreground"> MEDIA</span>
+          </Link>
+          <h1 className="mt-6 text-2xl font-bold tracking-tight">
+            Check your email
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            We sent a password reset link to{" "}
+            <span className="text-foreground">{email}</span>
+          </p>
+        </div>
+        <Link
+          href="/login"
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <ArrowLeft className="h-3 w-3" />
+          Back to login
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-sm space-y-6">
@@ -43,10 +59,10 @@ function LoginForm() {
           CEPHEI<span className="text-muted-foreground"> MEDIA</span>
         </Link>
         <h1 className="mt-6 text-2xl font-bold tracking-tight">
-          Client Login
+          Reset password
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Access your analytics dashboard
+          Enter your email and we&apos;ll send a reset link.
         </p>
       </div>
 
@@ -74,38 +90,14 @@ function LoginForm() {
             />
           </div>
 
-          <div>
-            <div className="flex items-center justify-between">
-              <label htmlFor="password" className="text-sm font-medium">
-                Password
-              </label>
-              <Link
-                href="/forgot-password"
-                className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Forgot password?
-              </Link>
-            </div>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-              className="mt-1 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-              placeholder="••••••••"
-            />
-          </div>
-
           <Button type="submit" disabled={isPending} className="w-full">
             {isPending ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Signing in...
+                Sending...
               </>
             ) : (
-              "Sign In"
+              "Send Reset Link"
             )}
           </Button>
         </div>
@@ -113,10 +105,11 @@ function LoginForm() {
 
       <div className="text-center">
         <Link
-          href="/"
-          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+          href="/login"
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
-          &larr; Back to website
+          <ArrowLeft className="h-3 w-3" />
+          Back to login
         </Link>
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -10,6 +10,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 const navLinks = [
   { href: "/case-studies", label: "Case Studies" },
@@ -20,6 +22,23 @@ const navLinks = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const authHref = user ? "/app" : "/login";
+  const authLabel = user ? "Dashboard" : "Client Login";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
@@ -44,9 +63,9 @@ export function Navbar() {
 
         {/* Right side: CTA + Client Login */}
         <div className="hidden items-center gap-3 md:flex">
-          <Link href="/login">
+          <Link href={authHref}>
             <Button variant="ghost" size="sm" className="text-muted-foreground">
-              Client Login
+              {authLabel}
             </Button>
           </Link>
           <Link href="/contact">
@@ -75,9 +94,9 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="mt-4 flex flex-col gap-3 border-t border-border pt-4">
-                <Link href="/login" onClick={() => setOpen(false)}>
+                <Link href={authHref} onClick={() => setOpen(false)}>
                   <Button variant="ghost" className="w-full justify-start text-muted-foreground">
-                    Client Login
+                    {authLabel}
                   </Button>
                 </Link>
                 <Link href="/contact" onClick={() => setOpen(false)}>

@@ -29,19 +29,36 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // Refresh session if expired
+  // Refresh session if expired — always use getUser(), not getSession()
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Protected routes: redirect to login if not authenticated
-  const isPortalRoute = request.nextUrl.pathname.startsWith("/app");
-  const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");
+  const pathname = request.nextUrl.pathname;
+  const isPortalRoute = pathname.startsWith("/app");
+  const isAdminRoute = pathname.startsWith("/admin");
+  const isLoginRoute = pathname === "/login" || pathname === "/forgot-password";
 
+  // Redirect authenticated users away from login pages
+  if (isLoginRoute && user) {
+    // Fetch role for correct redirect
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    const destination = profile?.role === "admin" ? "/admin" : "/app";
+    const url = request.nextUrl.clone();
+    url.pathname = destination;
+    return NextResponse.redirect(url);
+  }
+
+  // Protected routes: redirect to login if not authenticated
   if ((isPortalRoute || isAdminRoute) && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    url.searchParams.set("redirect", request.nextUrl.pathname);
+    url.searchParams.set("redirect", pathname);
     return NextResponse.redirect(url);
   }
 

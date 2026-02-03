@@ -495,16 +495,16 @@ Motion/polish:
 **Goal:** Implement authentication, middleware guards, and portal/admin shell layouts.
 
 **Tasks:**
-- [ ] Run Supabase migrations for `organizations`, `profiles` — `supabase/migrations/002_create_orgs_profiles.sql`
-- [ ] Build login page with Supabase Auth (email/password) — `src/app/(auth)/login/page.tsx`
-- [ ] Build forgot-password page — `src/app/(auth)/forgot-password/page.tsx`
-- [ ] Create Next.js middleware for auth: protect `/app/*` and `/admin/*` routes, redirect unauthenticated to `/login` — `middleware.ts`
-- [ ] Create Supabase server client with cookie-based session using `@supabase/ssr` — `src/lib/supabase/server.ts`, `src/lib/supabase/middleware.ts`
-- [ ] Create `(portal)` route group layout with sidebar navigation — `src/app/(portal)/layout.tsx`
-- [ ] Create `(admin)` route group layout with admin sidebar — `src/app/(admin)/layout.tsx`
-- [ ] Update marketing navbar: show "Go to Dashboard" when user has active session, "Client Login" when not — `src/components/marketing/navbar.tsx`
-- [ ] Role-based redirect after login: `client` → `/app`, `admin` → `/admin` — `src/app/(auth)/login/page.tsx`
-- [ ] Set up RLS policies for `organizations` and `profiles` — `supabase/migrations/003_rls_policies.sql`
+- [x] Run Supabase migrations for `organizations`, `profiles` — `supabase/migrations/002_create_orgs_profiles.sql`
+- [x] Build login page with Supabase Auth (email/password) — `src/app/(auth)/login/page.tsx`
+- [x] Build forgot-password page — `src/app/(auth)/forgot-password/page.tsx`
+- [x] Create Next.js middleware for auth: protect `/app/*` and `/admin/*` routes, redirect unauthenticated to `/login` — `middleware.ts`
+- [x] Create Supabase server client with cookie-based session using `@supabase/ssr` — `src/lib/supabase/server.ts`, `src/lib/supabase/middleware.ts`
+- [x] Create `(portal)` route group layout with sidebar navigation — `src/app/(portal)/layout.tsx`
+- [x] Create `(admin)` route group layout with admin sidebar — `src/app/(admin)/layout.tsx`
+- [x] Update marketing navbar: show "Go to Dashboard" when user has active session, "Client Login" when not — `src/components/marketing/navbar.tsx`
+- [x] Role-based redirect after login: `client` → `/app`, `admin` → `/admin` — `src/app/(auth)/login/page.tsx`
+- [x] Set up RLS policies for `organizations` and `profiles` — `supabase/migrations/003_rls_policies.sql`
 
 **Acceptance:**
 - `/login` authenticates users via Supabase
