@@ -1,7 +1,4 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 const budgetLabels: Record<string, string> = {
   starter: "Starter — Under $3K/mo",
@@ -21,6 +18,15 @@ const serviceLabels: Record<string, string> = {
  */
 export async function POST(request: Request) {
   try {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey || apiKey.includes("your_api_key")) {
+      console.log("Resend API key not configured — skipping email");
+      return NextResponse.json({ sent: false, reason: "email not configured" });
+    }
+
+    const { Resend } = await import("resend");
+    const resend = new Resend(apiKey);
+
     const body = await request.json();
 
     const serviceLine = serviceLabels[body.services] || body.services;
