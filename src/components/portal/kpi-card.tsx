@@ -80,7 +80,7 @@ export function KPICard({
   return (
     <div
       className={cn(
-        "glow-border glow-hover group relative rounded-xl border border-white/[0.08] bg-white/[0.03] p-6 transition-all duration-300",
+        "glow-border glow-hover group relative rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 sm:p-6 transition-all duration-300",
         unavailable && "opacity-60",
         className
       )}

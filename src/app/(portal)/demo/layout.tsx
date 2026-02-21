@@ -1,4 +1,4 @@
-import { DemoSidebar } from "@/components/portal/demo-sidebar";
+import { DemoShell } from "@/components/portal/demo-shell";
 import { AIChatbot } from "@/components/portal/ai-chatbot";
 
 export default function DemoLayout({
@@ -8,12 +8,7 @@ export default function DemoLayout({
 }) {
   return (
     <>
-      <div className="flex h-screen">
-        <DemoSidebar />
-        <main className="flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-6xl px-6 py-8">{children}</div>
-        </main>
-      </div>
+      <DemoShell>{children}</DemoShell>
       <AIChatbot />
     </>
   );

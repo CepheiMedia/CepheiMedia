@@ -123,24 +123,22 @@ export default function DemoPage() {
       <PerformanceAlerts />
 
       {/* Company Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-xl font-bold text-primary">
-              {initials}
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight">
-                {companyName}
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Growth Client
-              </p>
-            </div>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-lg font-bold text-primary sm:h-12 sm:w-12 sm:text-xl">
+            {initials}
+          </div>
+          <div className="min-w-0">
+            <h1 className="truncate text-xl font-bold tracking-tight sm:text-2xl">
+              {companyName}
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Growth Client
+            </p>
           </div>
         </div>
-        <div className="text-right">
-          <Badge variant="default" className="mb-1">
+        <div className="flex items-center gap-2 sm:flex-col sm:items-end sm:gap-1">
+          <Badge variant="default">
             Growth Plan
           </Badge>
           <p className="text-xs text-muted-foreground">
@@ -216,7 +214,7 @@ export default function DemoPage() {
 
       {/* Campaign Performance */}
       <div className="rounded-xl border border-border/60 bg-card/50">
-        <div className="flex items-center justify-between border-b border-border/60 p-6">
+        <div className="flex items-center justify-between border-b border-border/60 p-4 sm:p-6">
           <div>
             <h2 className="font-semibold">Active Campaigns</h2>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -232,7 +230,8 @@ export default function DemoPage() {
           </Link>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Desktop table */}
+        <div className="hidden overflow-x-auto sm:block">
           <table className="w-full">
             <thead>
               <tr className="border-b border-border/60 text-left text-sm text-muted-foreground">
@@ -266,6 +265,35 @@ export default function DemoPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile cards */}
+        <div className="space-y-3 p-4 sm:hidden">
+          {campaigns.map((campaign) => (
+            <div
+              key={campaign.name}
+              className="rounded-lg border border-border/40 p-3"
+            >
+              <div className="mb-2 flex items-center justify-between">
+                <p className="text-sm font-medium">{campaign.name}</p>
+                {getPlatformBadge(campaign.platform)}
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div>
+                  <p className="text-xs text-muted-foreground">Spend</p>
+                  <p className="text-sm font-medium">{formatCurrency(campaign.spend)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">Leads</p>
+                  <p className="text-sm font-medium">{campaign.leads}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">ROAS</p>
+                  <p className="text-sm font-medium text-green-500">{campaign.roas}x</p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -335,8 +363,8 @@ export default function DemoPage() {
       <ReportGenerator />
 
       {/* ROI Projection Teaser */}
-      <div className="rounded-xl border border-border/60 bg-gradient-to-br from-primary/5 to-primary/10 p-6">
-        <div className="flex items-center justify-between">
+      <div className="rounded-xl border border-border/60 bg-gradient-to-br from-primary/5 to-primary/10 p-4 sm:p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="font-semibold">ROI Projections</h2>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -348,7 +376,7 @@ export default function DemoPage() {
           </div>
           <Link
             href="/demo/roi"
-            className="flex items-center gap-1 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            className="flex w-full items-center justify-center gap-1 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 sm:w-auto"
           >
             View Projections
             <ArrowRight className="h-4 w-4" />

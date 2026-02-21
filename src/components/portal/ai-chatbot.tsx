@@ -108,7 +108,7 @@ export function AIChatbot() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 flex h-[500px] w-[380px] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl">
+        <div className="fixed bottom-24 right-4 left-4 z-50 flex h-[70dvh] max-h-[500px] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl sm:left-auto sm:w-[380px]">
           {/* Header */}
           <div className="flex items-center gap-3 border-b border-border bg-card px-4 py-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
