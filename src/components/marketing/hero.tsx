@@ -34,7 +34,7 @@ export function Hero() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-5xl font-bold leading-[1.1] tracking-tight md:text-7xl">
+          <h1 className="text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-7xl">
             Predictable Growth.
             <br />
             <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">

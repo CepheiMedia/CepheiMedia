@@ -209,11 +209,11 @@ export function PortalTeaser() {
                 <div className="h-2.5 w-2.5 rounded-full bg-amber-500/60" />
                 <div className="h-2.5 w-2.5 rounded-full bg-emerald-500/60" />
               </div>
-              <div className="flex items-center gap-2 rounded-md border border-white/[0.06] bg-white/[0.03] px-3 py-1">
+              <div className="hidden items-center gap-2 rounded-md border border-white/[0.06] bg-white/[0.03] px-3 py-1 sm:flex">
                 <div className="h-2.5 w-2.5 rounded-sm bg-blue-500/40" />
                 <span className="font-mono text-[10px] text-zinc-500">app.cepheimedia.com/dashboard</span>
               </div>
-              <div className="w-[52px]" /> {/* Spacer */}
+              <div className="hidden w-[52px] sm:block" /> {/* Spacer */}
             </div>
 
             {/* Tab bar */}
@@ -356,12 +356,12 @@ export function PortalTeaser() {
                             <span className={`text-[10px] capitalize ${statusStyle.text}`}>{c.status}</span>
                           </div>
                         </div>
-                        <div className="flex items-center gap-4 text-right">
+                        <div className="flex shrink-0 items-center gap-2 text-right sm:gap-4">
                           <div>
                             <p className="text-[10px] text-zinc-500">Spend</p>
                             <p className="text-xs font-medium tabular-nums text-white">{c.spend}</p>
                           </div>
-                          <div>
+                          <div className="hidden sm:block">
                             <p className="text-[10px] text-zinc-500">Leads</p>
                             <p className="text-xs font-medium tabular-nums text-white">{c.leads}</p>
                           </div>
