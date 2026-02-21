@@ -1,15 +1,32 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { RotatingText } from "@/components/ui/rotating-text";
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
-      {/* Subtle gradient background */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-muted/20 via-background to-background" />
+      {/* Background Video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+      >
+        <source src="/videos/hero-bg.mp4?v=2" type="video/mp4" />
+      </video>
 
-      <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-32 md:pb-32 md:pt-44">
-        <div className="mx-auto max-w-4xl text-center">
+      {/* Dark overlay for text readability */}
+      <div className="pointer-events-none absolute inset-0 bg-black/60" />
+
+      {/* Gradient fade at bottom */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
+
+      <div className="relative mx-auto max-w-[1600px] px-6 pb-24 pt-32 md:pb-32 md:pt-44 lg:px-12">
+        <div className="mx-auto max-w-5xl text-center">
           {/* Credibility strip */}
           <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/50 px-4 py-1.5 text-xs text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
@@ -20,7 +37,17 @@ export function Hero() {
           <h1 className="text-5xl font-bold leading-[1.1] tracking-tight md:text-7xl">
             Predictable Growth.
             <br />
-            <span className="text-muted-foreground">Measured ROI.</span>
+            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              <RotatingText
+                phrases={[
+                  "Measured ROI.",
+                  "Full Visibility.",
+                  "Scalable Systems.",
+                  "Data-Driven Results.",
+                ]}
+                interval={3200}
+              />
+            </span>
           </h1>
 
           {/* Subheadline */}
@@ -32,15 +59,15 @@ export function Hero() {
 
           {/* CTAs */}
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link href="/contact">
+            <a href="https://calendly.com/alan-cepheimedia/30min" target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="gap-2 text-base">
                 Book a Strategy Call
                 <ArrowRight className="h-4 w-4" />
               </Button>
-            </Link>
-            <Link href="/case-studies">
+            </a>
+            <Link href="/services">
               <Button variant="outline" size="lg" className="text-base">
-                View Case Studies
+                View Services
               </Button>
             </Link>
           </div>

@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(git init:*)",
+      "Bash(npm run build:*)",
+      "Bash(git -C \"C:\\\\Users\\\\alanb\\\\OneDrive\\\\Documents\\\\Senior Project\" show --stat HEAD)",
+      "Bash(git -C \"C:\\\\Users\\\\alanb\\\\OneDrive\\\\Documents\\\\Senior Project\" show a7f1b87 --stat)",
+      "Bash(git -C \"C:\\\\Users\\\\alanb\\\\OneDrive\\\\Documents\\\\Senior Project\" show 0274801 --stat)",
+      "Bash(ls:*)",
+      "Bash(npx next build:*)",
+      "Bash(find:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx next dev --port 3000)",
+      "Bash(magick:*)",
+      "Bash(convert:*)",
+      "Bash(node:*)",
+      "Bash(copy \"c:\\\\Users\\\\alanb\\\\Downloads\\\\download \\(1\\).jpg\" \"C:\\\\Users\\\\alanb\\\\OneDrive\\\\Documents\\\\Senior Project\\\\public\\\\images\\\\dj-romilux.jpg\")",
+      "Bash(cmd /c copy \"c:\\\\Users\\\\alanb\\\\Downloads\\\\download \\(1\\).jpg\" \"C:\\\\Users\\\\alanb\\\\OneDrive\\\\Documents\\\\Senior Project\\\\public\\\\images\\\\dj-romilux.jpg\")",
+      "Bash(powershell -Command:*)",
+      "Bash(npx playwright install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(taskkill:*)",
+      "WebFetch(domain:open.spotify.com)",
+      "Bash(Start-Sleep -Seconds 8)",
+      "Bash(Get-Content \"C:\\\\Users\\\\alanb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-alanb-OneDrive-Documents-Senior-Project\\\\tasks\\\\bacb95c.output\" -Tail 30)",
+      "Bash(npx next lint)",
+      "Bash(npx eslint:*)",
+      "Bash(curl:*)",
+      "mcp__plugin_compound-engineering_context7__resolve-library-id",
+      "mcp__plugin_compound-engineering_context7__query-docs",
+      "Bash(npm info:*)",
+      "WebSearch",
+      "WebFetch(domain:soundcloud.com)",
+      "WebFetch(domain:www.instagram.com)"
+    ]
+  }
+}

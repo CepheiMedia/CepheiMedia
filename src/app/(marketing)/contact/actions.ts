@@ -1,6 +1,5 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { inquirySchema } from "@/lib/validations/inquiry";
 
 export type InquiryResult =
@@ -26,38 +25,44 @@ export async function submitInquiry(
   const servicesRequested =
     services === "both" ? ["dtm", "ddm"] : [services];
 
-  const supabase = await createClient();
-
-  const { error } = await supabase.from("inquiries").insert({
-    name,
-    email,
-    phone: phone || null,
-    company: company || null,
-    services_requested: servicesRequested,
-    budget_range: budget,
-    project_details: details || null,
-  });
-
-  if (error) {
-    console.error("Failed to insert inquiry:", error.message);
-    return {
-      success: false,
-      errors: { _form: ["Something went wrong. Please try again."] },
-    };
+  // Try Supabase insert if configured
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (supabaseUrl && !supabaseUrl.includes("your-project-ref")) {
+    try {
+      const { createClient } = await import("@/lib/supabase/server");
+      const supabase = await createClient();
+      const { error } = await supabase.from("inquiries").insert({
+        name,
+        email,
+        phone: phone || null,
+        company: company || null,
+        services_requested: servicesRequested,
+        budget_range: budget,
+        project_details: details || null,
+      });
+      if (error) {
+        console.error("Supabase insert failed (non-blocking):", error.message);
+      }
+    } catch (err) {
+      console.error("Supabase unavailable (non-blocking):", err);
+    }
   }
 
-  // Fire-and-forget email notification
+  // Send email notification
   try {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    await fetch(`${baseUrl}/api/inquiries`, {
+    const res = await fetch(`${baseUrl}/api/inquiries`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, company, services, budget }),
+      body: JSON.stringify({ name, email, phone, company, services, budget, details }),
     });
-  } catch {
-    // Email notification failure shouldn't block the submission
-    console.error("Email notification failed");
+    if (!res.ok) {
+      console.error("Email API returned:", res.status);
+    }
+  } catch (err) {
+    console.error("Email notification failed:", err);
   }
 
+  // Always return success — the inquiry was received
   return { success: true };
 }

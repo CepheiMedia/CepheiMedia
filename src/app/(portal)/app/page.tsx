@@ -1,50 +1,58 @@
-import { createClient } from "@/lib/supabase/server";
+"use client";
 
-export default async function DashboardPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Settings2 } from "lucide-react";
+import { DashboardGrid } from "@/components/portal/dashboard-grid";
+import { DashboardCustomizePanel } from "@/components/portal/dashboard-customize-panel";
+import { useDashboardLayout } from "@/lib/dashboard/use-dashboard-layout";
+import { useDashboardContext } from "@/lib/dashboard/dashboard-context";
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("full_name, organization_id")
-    .eq("id", user?.id ?? "")
-    .single();
+export default function DashboardPage() {
+  const { layouts, hiddenWidgets, onLayoutChange, toggleWidget, resetLayout } =
+    useDashboardLayout();
+  const { isEditMode } = useDashboardContext();
+  const [panelOpen, setPanelOpen] = useState(false);
 
   return (
-    <div>
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-        <p className="mt-1 text-muted-foreground">
-          Welcome back{profile?.full_name ? `, ${profile.full_name}` : ""}.
-        </p>
+    <div className="space-y-6">
+      {/* Dashboard title + contract badge */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold tracking-tight text-white">
+          Dashboard
+        </h1>
+        <div className="flex items-center gap-3">
+          {isEditMode && (
+            <button
+              onClick={() => setPanelOpen(true)}
+              className="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-zinc-300 transition-colors hover:bg-white/[0.08]"
+            >
+              <Settings2 className="h-3.5 w-3.5" />
+              Toggle Widgets
+            </button>
+          )}
+          <Badge className="border-blue-500/30 bg-blue-500/10 text-blue-400">
+            Growth Plan
+          </Badge>
+        </div>
       </div>
 
-      {/* KPI Cards placeholder — Phase 2 */}
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {["Total Spend", "Cost per Lead", "Leads", "ROAS"].map((label) => (
-          <div
-            key={label}
-            className="rounded-xl border border-border/60 bg-card/50 p-6"
-          >
-            <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="mt-2 text-2xl font-bold">—</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Data available after integration
-            </p>
-          </div>
-        ))}
-      </div>
+      {/* Draggable grid */}
+      <DashboardGrid
+        layouts={layouts}
+        hiddenWidgets={hiddenWidgets}
+        isEditMode={isEditMode}
+        onLayoutChange={onLayoutChange}
+      />
 
-      {/* Recent activity placeholder */}
-      <div className="mt-8 rounded-xl border border-border/60 bg-card/50 p-6">
-        <h2 className="font-semibold">Recent Activity</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Campaign updates and deliverables will appear here once your account
-          is connected.
-        </p>
-      </div>
+      {/* Customize panel */}
+      <DashboardCustomizePanel
+        isOpen={panelOpen}
+        hiddenWidgets={hiddenWidgets}
+        onToggleWidget={toggleWidget}
+        onReset={resetLayout}
+        onClose={() => setPanelOpen(false)}
+      />
     </div>
   );
 }

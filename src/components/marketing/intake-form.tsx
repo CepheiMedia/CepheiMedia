@@ -87,32 +87,35 @@ export function IntakeForm() {
 
   if (submitted) {
     return (
-      <section id="contact-form" className="mx-auto max-w-7xl px-6 py-24">
-        <div className="mx-auto max-w-lg text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-border bg-card">
-            <Check className="h-5 w-5" />
+      <section id="contact-form" className="bg-white dark:bg-background">
+        <div className="mx-auto max-w-[1600px] px-6 py-24 lg:px-12">
+          <div className="mx-auto max-w-lg text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800/60">
+              <Check className="h-5 w-5 text-zinc-900 dark:text-zinc-100" />
+            </div>
+            <h2 className="mt-4 text-2xl font-semibold text-zinc-900 dark:text-zinc-100">We&apos;ll be in touch.</h2>
+            <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+              Thanks for reaching out. We&apos;ll review your info and get back to
+              you within 24 hours.
+            </p>
           </div>
-          <h2 className="mt-4 text-2xl font-semibold">We&apos;ll be in touch.</h2>
-          <p className="mt-2 text-muted-foreground">
-            Thanks for reaching out. We&apos;ll review your info and get back to
-            you within 24 hours.
-          </p>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="contact-form" className="mx-auto max-w-7xl px-6 py-24">
-      <div className="mx-auto max-w-lg">
-        <div className="text-center">
-          <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
-            Let&apos;s Talk
-          </h2>
-          <p className="mt-3 text-muted-foreground">
-            Tell us about your project and we&apos;ll build a plan.
-          </p>
-        </div>
+    <section id="contact-form" className="bg-white dark:bg-zinc-950">
+      <div className="mx-auto max-w-[1600px] px-6 py-24 lg:px-12">
+        <div className="mx-auto max-w-lg">
+          <div className="text-center">
+            <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 md:text-4xl">
+              Let&apos;s Talk
+            </h2>
+            <p className="mt-3 text-zinc-600 dark:text-zinc-400">
+              Tell us about your project and we&apos;ll build a plan.
+            </p>
+          </div>
 
         {/* Progress bar */}
         <div className="mt-8 flex gap-1">
@@ -126,7 +129,7 @@ export function IntakeForm() {
           ))}
         </div>
 
-        <div className="mt-8 rounded-xl border border-border/60 bg-card/50 p-8">
+        <div className="mt-8 rounded-xl border border-zinc-200 bg-zinc-50 p-8 dark:border-zinc-800 dark:bg-zinc-900">
           {/* Form-level error */}
           {errors._form && (
             <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
@@ -324,6 +327,7 @@ export function IntakeForm() {
               </Button>
             )}
           </div>
+        </div>
         </div>
       </div>
     </section>

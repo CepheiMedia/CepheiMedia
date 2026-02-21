@@ -1,4 +1,5 @@
 import { PortalSidebar } from "@/components/portal/sidebar";
+import { PortalShell } from "@/components/portal/portal-shell";
 
 export default function PortalLayout({
   children,
@@ -6,11 +7,9 @@ export default function PortalLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="dark flex h-screen overflow-hidden bg-zinc-950 text-zinc-50">
       <PortalSidebar />
-      <main className="flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-6xl px-6 py-8">{children}</div>
-      </main>
+      <PortalShell>{children}</PortalShell>
     </div>
   );
 }

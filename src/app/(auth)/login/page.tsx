@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Suspense, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -38,9 +39,16 @@ function LoginForm() {
 
   return (
     <div className="w-full max-w-sm space-y-6">
-      <div className="text-center">
-        <Link href="/" className="text-lg font-bold tracking-tight">
-          CEPHEI<span className="text-muted-foreground"> MEDIA</span>
+      <div className="flex flex-col items-center">
+        <Link href="/">
+          <Image
+            src="/images/cephei-logo.png"
+            alt="Cephei Media"
+            width={160}
+            height={46}
+            className="h-12 w-auto"
+            priority
+          />
         </Link>
         <h1 className="mt-6 text-2xl font-bold tracking-tight">
           Client Login

@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
-  Link2,
-  TrendingUp,
+  Building2,
+  MessageSquare,
   FileText,
   FileCheck,
   LogOut,
@@ -17,9 +18,9 @@ import { useRouter } from "next/navigation";
 
 const navItems = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
+  { href: "/admin/organizations", label: "Organizations", icon: Building2 },
   { href: "/admin/clients", label: "Clients", icon: Users },
-  { href: "/admin/integrations", label: "Integrations", icon: Link2 },
-  { href: "/admin/roi", label: "ROI Settings", icon: TrendingUp },
+  { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare },
   { href: "/admin/contracts", label: "Contracts", icon: FileText },
   { href: "/admin/deliverables", label: "Deliverables", icon: FileCheck },
 ];
@@ -37,11 +38,17 @@ export function AdminSidebar() {
   return (
     <aside className="flex h-screen w-64 flex-col border-r border-border/40 bg-card/30">
       {/* Logo */}
-      <div className="flex h-16 items-center border-b border-border/40 px-6">
-        <Link href="/" className="text-lg font-bold tracking-tight">
-          CEPHEI<span className="text-muted-foreground"> MEDIA</span>
+      <div className="flex h-16 items-center gap-2 border-b border-border/40 px-6">
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/images/cephei-logo.png"
+            alt="Cephei Media"
+            width={100}
+            height={28}
+            className="h-7 w-auto"
+          />
         </Link>
-        <span className="ml-2 rounded bg-foreground/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+        <span className="rounded bg-foreground/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
           Admin
         </span>
       </div>

@@ -80,37 +80,37 @@
 }
 
 .dark {
-  --background: oklch(0.1 0 0);
+  --background: oklch(0.15 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.16 0 0);
+  --card: oklch(0.19 0 0);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.16 0 0);
+  --popover: oklch(0.19 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.1 0 0);
-  --secondary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.15 0 0);
+  --secondary: oklch(0.25 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.25 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: oklch(1 0 0 / 14%);
+  --input: oklch(1 0 0 / 20%);
+  --ring: oklch(0.6 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: oklch(0.17 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent: oklch(0.25 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-border: oklch(1 0 0 / 14%);
+  --sidebar-ring: oklch(0.6 0 0);
 }
 
 @layer base {
@@ -120,4 +120,171 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Film grain texture overlay — applied to .dark body */
+.dark body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+/* ─── Portal Utility Classes ─── */
+
+/* Grid dot pattern background */
+.portal-grid-bg {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255 255 255 / 0.06) 1px, transparent 0);
+  background-size: 32px 32px;
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255 255 255 / 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255 255 255 / 0.08);
+}
+
+/* Glow border on hover */
+.glow-border {
+  position: relative;
+}
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(59 130 246 / 0), rgba(59 130 246 / 0.3), rgba(139 92 246 / 0.3), rgba(139 92 246 / 0));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.glow-border:hover::before {
+  opacity: 1;
+}
+
+/* Subtle box-shadow glow on hover */
+.glow-hover {
+  transition: box-shadow 0.3s ease;
+}
+.glow-hover:hover {
+  box-shadow: 0 0 20px rgba(59 130 246 / 0.08), 0 0 40px rgba(139 92 246 / 0.04);
+}
+
+/* Pulsing status dot */
+.pulse-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.pulse-dot::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: inherit;
+  animation: pulse-ring 2s ease-out infinite;
+}
+@keyframes pulse-ring {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 0; transform: scale(2.2); }
+}
+
+/* Sparkline draw animation */
+@keyframes sparkline-draw {
+  from { stroke-dashoffset: var(--sparkline-length, 200); }
+  to { stroke-dashoffset: 0; }
+}
+.sparkline-path {
+  stroke-dasharray: var(--sparkline-length, 200);
+  stroke-dashoffset: var(--sparkline-length, 200);
+  animation: sparkline-draw 1.2s ease-out forwards;
+}
+
+/* Table row hover glow */
+.table-row-glow {
+  transition: background 0.2s ease;
+}
+.table-row-glow:hover {
+  background: rgba(255 255 255 / 0.03);
+}
+
+/* Infinite scrolling marquee */
+@keyframes marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+.animate-marquee {
+  width: max-content;
+  will-change: transform;
+  animation: marquee 18s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ─── React Grid Layout Overrides ─── */
+
+.react-grid-item.react-grid-placeholder {
+  background: rgba(59, 130, 246, 0.08) !important;
+  border: 2px dashed rgba(59, 130, 246, 0.4) !important;
+  border-radius: 0.75rem !important;
+  opacity: 1 !important;
+}
+
+.react-grid-item.react-draggable-dragging {
+  z-index: 30 !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.15) !important;
+  border-radius: 0.75rem;
+}
+
+/* Always show resize handles in edit mode (default CSS hides at opacity:0) */
+.dashboard-edit-mode .react-grid-item > .react-resizable-handle {
+  opacity: 1 !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: none !important;
+  z-index: 20;
+}
+
+.dashboard-edit-mode .react-grid-item > .react-resizable-handle::after {
+  content: "" !important;
+  position: absolute !important;
+  width: 10px !important;
+  height: 10px !important;
+  right: 4px !important;
+  bottom: 4px !important;
+  border-right: 3px solid rgba(59, 130, 246, 0.7) !important;
+  border-bottom: 3px solid rgba(59, 130, 246, 0.7) !important;
+  border-radius: 0 0 2px 0;
+}
+
+/* Ping animation for lead map */
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* Pulse animation for sparkline dots */
+@keyframes pulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.5); }
 }
