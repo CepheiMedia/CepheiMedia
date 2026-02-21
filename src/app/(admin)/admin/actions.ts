@@ -202,6 +202,9 @@ export async function createClientAccount(
 
   // Use admin client to create auth user
   const adminSupabase = createAdminClient();
+  if (!adminSupabase) {
+    return { success: false, error: "Admin client not configured" };
+  }
   const { data: authUser, error: authError } =
     await adminSupabase.auth.admin.createUser({
       email: parsed.data.email,
@@ -308,6 +311,9 @@ export async function deleteClient(id: string): Promise<ActionResult> {
 
   // Use admin client to delete auth user (cascades to profile)
   const adminSupabase = createAdminClient();
+  if (!adminSupabase) {
+    return { success: false, error: "Admin client not configured" };
+  }
   const { error } = await adminSupabase.auth.admin.deleteUser(id);
 
   if (error) {
@@ -415,6 +421,9 @@ export async function convertInquiryToClient(
 
   const supabase = await createClient();
   const adminSupabase = createAdminClient();
+  if (!adminSupabase) {
+    return { success: false, error: "Admin client not configured" };
+  }
 
   // 1. Create organization
   const { data: org, error: orgError } = await supabase
