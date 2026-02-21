@@ -112,27 +112,27 @@ export function Navbar() {
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-72">
-            <SheetTitle className="text-lg font-bold">Menu</SheetTitle>
-            <nav className="mt-8 flex flex-col gap-4">
+          <SheetContent side="right" className="w-72 flex flex-col">
+            <SheetTitle className="sr-only">Menu</SheetTitle>
+            <nav className="flex flex-1 flex-col items-center justify-center gap-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="text-lg text-muted-foreground transition-colors hover:text-foreground"
+                  className="text-xl font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="mt-4 flex flex-col gap-3 border-t border-border pt-4">
+              <div className="mt-2 flex w-full flex-col items-center gap-3 border-t border-border pt-6">
                 <Link href={authHref} onClick={() => setOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start text-muted-foreground">
+                  <Button variant="ghost" className="text-muted-foreground">
                     {authLabel}
                   </Button>
                 </Link>
                 <a href="https://calendly.com/alan-cepheimedia/30min" target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>
-                  <Button className="w-full">Book a Call</Button>
+                  <Button>Book a Call</Button>
                 </a>
               </div>
             </nav>
