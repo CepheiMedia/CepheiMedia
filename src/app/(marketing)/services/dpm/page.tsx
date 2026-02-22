@@ -515,7 +515,7 @@ export default function DPMPage() {
                       alt={dj.name}
                       fill
                       className={`transition-transform duration-500 group-hover:scale-105 ${
-                        dj.image.includes("logo") ? "object-contain p-8" : "object-cover object-center"
+                        dj.image.includes("logo") ? "object-contain p-8" : `object-cover ${dj.image.includes("romilux") ? "object-top" : "object-center"}`
                       }`}
                     />
                   ) : (
