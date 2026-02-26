@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +20,8 @@ import {
   ChevronLeft,
   ChevronRight,
   ShoppingBag,
+  CalendarDays,
+  Sparkles,
 } from "lucide-react";
 import { AnimateIn } from "@/components/ui/animate-in";
 import { CountUp } from "@/components/ui/count-up";
@@ -284,10 +286,33 @@ const venues = [
 ];
 
 
+const events = [
+  {
+    id: "dreamhaus-mmw",
+    title: "DREAMHAUS",
+    subtitle: "Miami Music Week",
+    date: "Mar 26, 2026",
+    venue: "Dom's Brickell",
+    location: "1010 Brickell Ave, Miami FL",
+    time: "4 PM - 11:30 PM",
+    flyer: "/images/event-dreamhaus-mmw.jpeg",
+  },
+];
+
 export default function DPMPage() {
   const [selectedDJ, setSelectedDJ] = useState<DJ | null>(null);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [selectedMerch, setSelectedMerch] = useState<MerchItem | null>(null);
+  const eventsScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollEvents = (direction: "left" | "right") => {
+    if (!eventsScrollRef.current) return;
+    const scrollAmount = 340;
+    eventsScrollRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   const openDJ = (dj: DJ) => {
     setSelectedDJ(dj);
@@ -670,6 +695,108 @@ export default function DPMPage() {
             ))}
           </div>
         </AnimateIn>
+      </div>
+
+      {/* Our Events */}
+      <div className="mt-20">
+        <AnimateIn>
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-sm font-medium text-cyan-400 mb-4">
+              <CalendarDays className="h-3.5 w-3.5" />
+              Cephei Media Promotions
+            </div>
+            <h2 className="text-2xl font-semibold">Our Events</h2>
+            <p className="mt-2 text-muted-foreground max-w-xl mx-auto">
+              Curated events powered by Cephei Media Promotions. Scroll through our upcoming and past shows.
+            </p>
+          </div>
+        </AnimateIn>
+
+        {/* Florence-styled arched window carousel */}
+        <div className="relative">
+          {/* Scroll buttons */}
+          <button
+            onClick={() => scrollEvents("left")}
+            className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 rounded-full border border-white/10 bg-black/60 p-2.5 text-white/70 backdrop-blur-sm transition-all hover:bg-black/80 hover:text-white hidden md:flex items-center justify-center"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            onClick={() => scrollEvents("right")}
+            className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 rounded-full border border-white/10 bg-black/60 p-2.5 text-white/70 backdrop-blur-sm transition-all hover:bg-black/80 hover:text-white hidden md:flex items-center justify-center"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
+          {/* Scrollable track */}
+          <div
+            ref={eventsScrollRef}
+            className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {/* Real events */}
+            {events.map((event) => (
+              <div
+                key={event.id}
+                className="group relative shrink-0 w-[300px] snap-center"
+              >
+                <div className="relative overflow-hidden rounded-2xl border border-white/[0.12] bg-zinc-950 shadow-[0_0_50px_-12px_rgba(6,182,212,0.15)] transition-all hover:border-cyan-500/30 hover:shadow-[0_0_60px_-10px_rgba(6,182,212,0.25)]">
+                  {/* Flyer image — full visible */}
+                  <div className="relative aspect-[4/5] overflow-hidden bg-zinc-950">
+                    <Image
+                      src={event.flyer}
+                      alt={event.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+
+                  {/* Event info bar below image */}
+                  <div className="relative border-t border-white/[0.06] bg-zinc-900/90 backdrop-blur-sm p-4">
+                    <Badge className="mb-2 bg-cyan-500/20 text-cyan-300 border-cyan-500/30 text-[10px]">
+                      {event.date}
+                    </Badge>
+                    <h3 className="text-lg font-bold text-white">{event.title}</h3>
+                    <p className="text-xs text-cyan-400 font-medium">{event.subtitle}</p>
+                    <div className="mt-2 flex items-center gap-1.5 text-[11px] text-zinc-400">
+                      <MapPin className="h-3 w-3" />
+                      {event.venue}
+                    </div>
+                    <p className="text-[10px] text-zinc-500 mt-0.5">{event.time}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Coming Soon placeholders */}
+            {[1, 2, 3].map((i) => (
+              <div
+                key={`coming-soon-${i}`}
+                className="group relative shrink-0 w-[300px] snap-center"
+              >
+                <div className="relative overflow-hidden rounded-2xl border border-dashed border-white/[0.08] bg-zinc-900/40 transition-all hover:border-white/[0.15]">
+                  {/* Placeholder content */}
+                  <div className="relative aspect-[4/5] flex flex-col items-center justify-center px-8">
+                    <Image
+                      src="/images/dpm-logo.png"
+                      alt="Cephei Media Promotions"
+                      width={200}
+                      height={110}
+                      className="h-24 w-auto opacity-15"
+                    />
+                    <div className="mt-6 flex items-center gap-2 text-zinc-600">
+                      <Sparkles className="h-4 w-4" />
+                      <span className="text-sm font-medium">Coming Soon</span>
+                    </div>
+                    <p className="mt-2 text-[11px] text-zinc-700 text-center">
+                      More events on the way
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Services */}
