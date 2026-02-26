@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -304,6 +304,42 @@ export default function DPMPage() {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [selectedMerch, setSelectedMerch] = useState<MerchItem | null>(null);
   const eventsScrollRef = useRef<HTMLDivElement>(null);
+  const [activeSection, setActiveSection] = useState("hero");
+
+  const tocSections = [
+    { id: "hero", label: "DPM" },
+    { id: "division", label: "Division" },
+    { id: "roster", label: "Roster" },
+    { id: "merch", label: "Merch" },
+    { id: "venues", label: "Venues" },
+    { id: "events", label: "Events" },
+    { id: "services", label: "Services" },
+    { id: "difference", label: "Difference" },
+    { id: "deliverables", label: "Deliverables" },
+    { id: "work", label: "Our Work" },
+    { id: "process", label: "Process" },
+  ];
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        }
+      },
+      { rootMargin: "-10% 0px -60% 0px", threshold: 0.1 }
+    );
+
+    for (const section of tocSections) {
+      const el = document.getElementById(section.id);
+      if (el) observer.observe(el);
+    }
+
+    return () => observer.disconnect();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const scrollEvents = (direction: "left" | "right") => {
     if (!eventsScrollRef.current) return;
@@ -332,8 +368,47 @@ export default function DPMPage() {
 
   return (
     <div>
+      {/* Side Table of Contents — desktop only */}
+      <nav className="fixed left-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col items-start gap-0.5">
+        {tocSections.map((section) => {
+          const isActive = activeSection === section.id;
+          return (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className={`group flex items-center gap-3 py-1.5 transition-all duration-500 origin-left ${
+                isActive ? "scale-110" : "scale-100 opacity-30 hover:opacity-60"
+              }`}
+            >
+              {/* Dot indicator */}
+              <span
+                className={`rounded-full shrink-0 transition-all duration-500 ${
+                  isActive
+                    ? "h-3 w-3 bg-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.7),0_0_24px_rgba(6,182,212,0.3)]"
+                    : "h-2 w-2 bg-zinc-600 group-hover:bg-zinc-500"
+                }`}
+              />
+              {/* Label */}
+              <span
+                className={`font-semibold tracking-wide transition-all duration-500 ${
+                  isActive
+                    ? "text-sm text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]"
+                    : "text-xs text-zinc-500 group-hover:text-zinc-400"
+                }`}
+              >
+                {section.label}
+              </span>
+            </a>
+          );
+        })}
+      </nav>
+
       {/* Video Hero */}
-      <section className="relative overflow-hidden">
+      <section id="hero" className="relative overflow-hidden scroll-mt-16">
         {/* Background video */}
         <video
           autoPlay
@@ -428,7 +503,7 @@ export default function DPMPage() {
       <div className="relative mx-auto max-w-7xl px-6 py-24">
 
       {/* Powered by Cephei */}
-      <div className="mt-20">
+      <div id="division" className="mt-20 scroll-mt-16">
         <h2 className="text-2xl font-semibold text-center mb-4">
           A Cephei Media Division
         </h2>
@@ -586,6 +661,7 @@ export default function DPMPage() {
       <div className="relative mx-auto max-w-7xl px-6 py-0">{/* reopen container */}
 
       {/* Merch Store */}
+      <div id="merch" className="scroll-mt-16" />
       <DpmMerchStore
         djs={djs.map((dj) => ({
           id: dj.id,
@@ -596,7 +672,7 @@ export default function DPMPage() {
       />
 
       {/* Venues — Where Our Artists Play */}
-      <div className="mt-20">
+      <div id="venues" className="mt-20 scroll-mt-16">
         <AnimateIn>
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-sm font-medium text-cyan-400 mb-4">
@@ -698,7 +774,7 @@ export default function DPMPage() {
       </div>
 
       {/* Our Events */}
-      <div className="mt-20">
+      <div id="events" className="mt-20 scroll-mt-16">
         <AnimateIn>
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-sm font-medium text-cyan-400 mb-4">
@@ -800,7 +876,7 @@ export default function DPMPage() {
       </div>
 
       {/* Services */}
-      <div className="mt-20">
+      <div id="services" className="mt-20 scroll-mt-16">
         <h2 className="text-2xl font-semibold">What We Do For Artists</h2>
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, i) => (
@@ -820,7 +896,7 @@ export default function DPMPage() {
       </div>
 
       {/* What Makes DPM Different */}
-      <div className="mt-20 rounded-xl border border-cyan-500/15 bg-card/50 p-8 shadow-[0_0_60px_-20px_rgba(6,182,212,0.1)]">
+      <div id="difference" className="mt-20 scroll-mt-16 rounded-xl border border-cyan-500/15 bg-card/50 p-8 shadow-[0_0_60px_-20px_rgba(6,182,212,0.1)]">
         <h2 className="text-2xl font-semibold">What Makes DPM Different</h2>
         <p className="mt-3 text-muted-foreground">
           Most DJs post random clips, hope to get noticed, rely on word of
@@ -861,7 +937,7 @@ export default function DPMPage() {
       </div>
 
       {/* Deliverables */}
-      <div className="mt-20">
+      <div id="deliverables" className="mt-20 scroll-mt-16">
         <h2 className="text-2xl font-semibold">What You Get</h2>
         <p className="mt-2 text-muted-foreground">
           Core DPM package includes everything you need for structured artist
@@ -893,7 +969,7 @@ export default function DPMPage() {
       </div>
 
       {/* Process */}
-      <div className="mt-20 rounded-xl border border-border/60 bg-card/50 p-8">
+      <div id="process" className="mt-20 scroll-mt-16 rounded-xl border border-border/60 bg-card/50 p-8">
         <h2 className="text-2xl font-semibold">Our Process</h2>
         <div className="mt-8 grid gap-8 md:grid-cols-3">
           {[
