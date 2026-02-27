@@ -80,7 +80,7 @@ const deliverables = [
   "Electronic press kit guidance",
 ];
 
-// DJ roster
+// DJ roster — Order: Romi, Fame, Antonee, Ranza, Larkinn, Nick, Genna, Chris Padin, Memo P
 const djs = [
   {
     id: "romi-lux",
@@ -147,33 +147,9 @@ const djs = [
     },
   },
   {
-    id: "chris-padin",
-    name: "Chris Padin",
-    role: "DJ / Producer",
-    image: "/images/dj-chrispadin-logo.jpg",
-    gallery: ["/images/dj-chrispadin.webp", "/images/dj-chrispadin-logo.jpg"],
-    bio: "Chris Padin is a versatile DJ and producer whose anthemic house sound has earned him features on EDM.com and a growing presence on 1001Tracklists. With hundreds of thousands of streams across his releases, Chris delivers high-energy, crowd-first performances that blend progressive house, electro, and festival-ready drops. From intimate club sets to large-scale events across South Florida, Chris Padin continues to expand his reach — backed by a catalog that speaks for itself.",
-    highlights: ["Featured on EDM.com", "Present on 1001Tracklists", "300K+ streams on top releases"],
-    topTracks: [
-      { name: "Hold Me Closer", plays: "322K", url: "https://open.spotify.com/track/2jY60ArGMPJIbnMqJ1GmLh" },
-      { name: "Call Me Up", plays: "169K", url: "https://open.spotify.com/track/2SBfe9nfWh6pgQ5EPgZZoD" },
-    ],
-    merch: [
-      { id: "chris-1", name: "House Is Life Tee", price: "$34", category: "Tee", description: "Statement tee with bold 'House Is Life' typography. Premium ring-spun cotton.", color: "bg-blue-500" },
-      { id: "chris-2", name: "CP Logo Cap", price: "$26", category: "Hat", description: "Clean minimal cap with embroidered CP monogram. Adjustable closure.", color: "bg-sky-500" },
-      { id: "chris-3", name: "Chris Padin Tote", price: "$20", category: "Tote", description: "Heavy-duty canvas tote with Chris Padin logo. Perfect for vinyl and gear.", color: "bg-indigo-500" },
-    ] as MerchItem[],
-    links: {
-      spotify: "https://open.spotify.com/artist/68wKYzG06o74N6o5aSifjN",
-      appleMusic: "https://music.apple.com/us/artist/chris-padin/1395646977",
-      soundcloud: null as string | null,
-      instagram: "https://www.instagram.com/chris_padin/",
-      youtube: null as string | null,
-    },
-  },
-  {
     id: "antonee",
     name: "Antonee",
+    logo: "/images/dj-antonee-logo-transparent.png",
     role: "DJ / Producer",
     image: "/images/dj-antonee-1.jpeg",
     gallery: ["/images/dj-antonee-1.jpeg", "/images/dj-antonee-2.jpeg", "/images/dj-antonee-logo.png"],
@@ -199,11 +175,39 @@ const djs = [
     },
   },
   {
+    id: "ranza",
+    name: "Ranza",
+    logo: "/images/dj-ranza-logo-transparent.png",
+    role: "DJ",
+    image: "/images/dj-ranza-1.jpeg",
+    gallery: ["/images/dj-ranza-1.jpeg", "/images/dj-ranza-logo.jpeg", "/images/dj-ranza-2.jpeg"],
+    bio: "Ranza is an up-and-coming DJ focused on tech house and hard house, built around tight grooves, heavy bass, and clean transitions. Influenced by artists like Kettama, Ned Bennett, Chris Lake, and more, he blends bouncy UK-inspired energy with club-ready drive. If you catch a Ranza set, expect the pace to stay up and the room to move.",
+    highlights: [
+      "Tech house & hard house focused",
+      "UK-inspired bouncy energy with club-ready drive",
+      "Influenced by Kettama, Ned Bennett, Chris Lake",
+    ],
+    topTracks: [],
+    merch: [
+      { id: "ranza-1", name: "Ranza Logo Tee", price: "$34", category: "Tee", description: "Bold Ranza logo graphic tee. Heavyweight cotton, oversized fit.", color: "bg-zinc-700" },
+      { id: "ranza-2", name: "Hard House Cap", price: "$26", category: "Hat", description: "Structured cap with embroidered Ranza wordmark. Adjustable strap.", color: "bg-stone-700" },
+      { id: "ranza-3", name: "Ranza Hoodie", price: "$62", category: "Hoodie", description: "Premium heavyweight hoodie with Ranza branding. Fleece-lined.", color: "bg-neutral-700" },
+    ] as MerchItem[],
+    links: {
+      spotify: null as string | null,
+      appleMusic: null as string | null,
+      soundcloud: null as string | null,
+      instagram: "https://www.instagram.com/ranza.music",
+      youtube: null as string | null,
+    },
+  },
+  {
     id: "larkinn",
     name: "Larkinn",
+    logo: "/images/dj-larkinn-logo-transparent.png",
     role: "DJ / Producer",
-    image: "/images/dj-larkinn.jpg",
-    gallery: ["/images/dj-larkinn.jpg"],
+    image: "/images/dj-larkinn-2.jpeg",
+    gallery: ["/images/dj-larkinn-2.jpeg", "/images/dj-larkinn-3.jpeg", "/images/dj-larkinn.jpg"],
     bio: "Larkinn is a rising force in the electronic scene, carving out a signature sound rooted in deep, melodic grooves and atmospheric builds. Whether it's a late-night club set or an outdoor festival stage, Larkinn creates immersive sonic journeys that pull crowds in and hold them there. With an ear for tracks that balance emotion with energy, Larkinn is steadily building a reputation as one of the most promising names coming out of the South Florida underground.",
     highlights: ["Deep & melodic house specialist", "Growing South Florida underground presence"],
     topTracks: [
@@ -216,8 +220,7 @@ const djs = [
       { id: "larkinn-3", name: "Journey Tote", price: "$18", category: "Tote", description: "Lightweight canvas tote with Journey EP artwork. Great for everyday carry.", color: "bg-cyan-500" },
     ] as MerchItem[],
     links: {
-      spotify:
-        "https://open.spotify.com/artist/2wnREXtZjqgUGTrmqu4mcl",
+      spotify: "https://open.spotify.com/artist/2wnREXtZjqgUGTrmqu4mcl",
       appleMusic: null as string | null,
       soundcloud: null as string | null,
       instagram: "https://www.instagram.com/larkinnmusic",
@@ -225,25 +228,29 @@ const djs = [
     },
   },
   {
-    id: "memo-p",
-    name: "Memo P",
-    role: "DJ / Producer",
-    image: "/images/dj-memop-2.jpg",
-    gallery: ["/images/dj-memop-2.jpg"],
-    bio: "Danny Palacios, known as Memo P, is a versatile DJ who brings raw, dynamic energy to every set. With a deep understanding of crowd dynamics and a genre-fluid approach that moves between house, Latin beats, and open format, Memo P has become a trusted name across South Florida's nightlife circuit. Whether it's a packed club night or a private event, Memo P delivers — building momentum with every booking and leaving every room wanting more.",
-    highlights: ["Genre-fluid open format sets", "South Florida nightlife circuit regular"],
+    id: "nick-g",
+    name: "Nick Gagliardo",
+    role: "DJ",
+    image: "/images/dj-nick-1.jpg",
+    gallery: ["/images/dj-nick-1.jpg", "/images/dj-nick-2.jpg", "/images/dj-nick-3.jpeg", "/images/dj-nick-4.jpg"],
+    bio: "Nicholas Gagliardo is an up-and-coming DJ out of the Tampa and Gainesville, FL scene, bringing high-energy sets rooted in house, tech house, and anything that moves a room. With a sharp ear for track selection and seamless mixing, Nick builds sets that ride momentum from start to finish — keeping the energy locked in and the crowd moving. Whether it's a college town throwdown or a late-night club slot, Nick delivers with confidence and a sound that's only getting sharper.",
+    highlights: [
+      "Based in Tampa / Gainesville, FL",
+      "House & tech house focused",
+      "High-energy sets built for crowd momentum",
+    ],
     topTracks: [],
     merch: [
-      { id: "memo-1", name: "Open Format Tee", price: "$34", category: "Tee", description: "Bold graphic tee celebrating the open format lifestyle. Unisex fit.", color: "bg-rose-500" },
-      { id: "memo-2", name: "Memo P Cap", price: "$26", category: "Hat", description: "Classic dad cap with Memo P embroidered logo. Washed cotton.", color: "bg-fuchsia-500" },
-      { id: "memo-3", name: "MP Hoodie", price: "$60", category: "Hoodie", description: "Premium heavyweight hoodie with MP branding. Fleece-lined, oversized cut.", color: "bg-pink-600" },
+      { id: "nick-1", name: "Nick G Logo Tee", price: "$34", category: "Tee", description: "Bold Nick Gagliardo logo graphic tee. Heavyweight cotton, relaxed fit.", color: "bg-purple-700" },
+      { id: "nick-2", name: "Nick G Cap", price: "$26", category: "Hat", description: "Structured cap with embroidered Nick G wordmark. Adjustable strap.", color: "bg-violet-700" },
+      { id: "nick-3", name: "Nick G Hoodie", price: "$60", category: "Hoodie", description: "Premium heavyweight hoodie with Nick Gagliardo branding. Fleece-lined.", color: "bg-indigo-700" },
     ] as MerchItem[],
     links: {
       spotify: null as string | null,
       appleMusic: null as string | null,
-      soundcloud: null as string | null,
-      instagram: "https://www.instagram.com/memopmusic",
-      youtube: "https://www.youtube.com/@memopmusic",
+      soundcloud: "https://soundcloud.com/user-433100313",
+      instagram: "https://www.instagram.com/nicholasg_29",
+      youtube: null as string | null,
     },
   },
   {
@@ -266,6 +273,54 @@ const djs = [
       soundcloud: null as string | null,
       instagram: null as string | null,
       youtube: null as string | null,
+    },
+  },
+  {
+    id: "chris-padin",
+    name: "Chris Padin",
+    role: "DJ / Producer",
+    image: "/images/dj-chrispadin-logo.jpg",
+    gallery: ["/images/dj-chrispadin.webp", "/images/dj-chrispadin-logo.jpg"],
+    bio: "Chris Padin is a versatile DJ and producer whose anthemic house sound has earned him features on EDM.com and a growing presence on 1001Tracklists. With hundreds of thousands of streams across his releases, Chris delivers high-energy, crowd-first performances that blend progressive house, electro, and festival-ready drops. From intimate club sets to large-scale events across South Florida, Chris Padin continues to expand his reach — backed by a catalog that speaks for itself.",
+    highlights: ["Featured on EDM.com", "Present on 1001Tracklists", "300K+ streams on top releases"],
+    topTracks: [
+      { name: "Hold Me Closer", plays: "322K", url: "https://open.spotify.com/track/2jY60ArGMPJIbnMqJ1GmLh" },
+      { name: "Call Me Up", plays: "169K", url: "https://open.spotify.com/track/2SBfe9nfWh6pgQ5EPgZZoD" },
+    ],
+    merch: [
+      { id: "chris-1", name: "House Is Life Tee", price: "$34", category: "Tee", description: "Statement tee with bold 'House Is Life' typography. Premium ring-spun cotton.", color: "bg-blue-500" },
+      { id: "chris-2", name: "CP Logo Cap", price: "$26", category: "Hat", description: "Clean minimal cap with embroidered CP monogram. Adjustable closure.", color: "bg-sky-500" },
+      { id: "chris-3", name: "Chris Padin Tote", price: "$20", category: "Tote", description: "Heavy-duty canvas tote with Chris Padin logo. Perfect for vinyl and gear.", color: "bg-indigo-500" },
+    ] as MerchItem[],
+    links: {
+      spotify: "https://open.spotify.com/artist/68wKYzG06o74N6o5aSifjN",
+      appleMusic: "https://music.apple.com/us/artist/chris-padin/1395646977",
+      soundcloud: null as string | null,
+      instagram: "https://www.instagram.com/chris_padin/",
+      youtube: null as string | null,
+    },
+  },
+  {
+    id: "memo-p",
+    name: "Memo P",
+    logo: "/images/dj-memop-logo-transparent.png",
+    role: "DJ / Producer",
+    image: "/images/dj-memop-2.jpg",
+    gallery: ["/images/dj-memop-2.jpg"],
+    bio: "Danny Palacios, known as Memo P, is a versatile DJ who brings raw, dynamic energy to every set. With a deep understanding of crowd dynamics and a genre-fluid approach that moves between house, Latin beats, and open format, Memo P has become a trusted name across South Florida's nightlife circuit. Whether it's a packed club night or a private event, Memo P delivers — building momentum with every booking and leaving every room wanting more.",
+    highlights: ["Genre-fluid open format sets", "South Florida nightlife circuit regular"],
+    topTracks: [],
+    merch: [
+      { id: "memo-1", name: "Open Format Tee", price: "$34", category: "Tee", description: "Bold graphic tee celebrating the open format lifestyle. Unisex fit.", color: "bg-rose-500" },
+      { id: "memo-2", name: "Memo P Cap", price: "$26", category: "Hat", description: "Classic dad cap with Memo P embroidered logo. Washed cotton.", color: "bg-fuchsia-500" },
+      { id: "memo-3", name: "MP Hoodie", price: "$60", category: "Hoodie", description: "Premium heavyweight hoodie with MP branding. Fleece-lined, oversized cut.", color: "bg-pink-600" },
+    ] as MerchItem[],
+    links: {
+      spotify: null as string | null,
+      appleMusic: null as string | null,
+      soundcloud: null as string | null,
+      instagram: "https://www.instagram.com/memopmusic",
+      youtube: "https://www.youtube.com/@memopmusic",
     },
   },
 ];
@@ -623,6 +678,18 @@ export default function DPMPage() {
                       <Music className="h-12 w-12 text-cyan-400/30" />
                     </div>
                   )}
+                  {/* Logo overlay in corner */}
+                  {"logo" in dj && dj.logo && (
+                    <div className="absolute bottom-2 right-2 z-10">
+                      <Image
+                        src={dj.logo as string}
+                        alt={`${dj.name} logo`}
+                        width={80}
+                        height={30}
+                        className="h-9 w-auto object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                      />
+                    </div>
+                  )}
                   {/* View overlay */}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 rounded-full px-4 py-2 text-sm font-medium text-black">
@@ -630,7 +697,7 @@ export default function DPMPage() {
                     </div>
                   </div>
                 </div>
-                <div className="p-5 text-center">
+                <div className="px-5 py-3 text-center">
                   <h3 className="text-lg font-semibold text-white">{dj.name}</h3>
                   <p className="text-sm text-zinc-400">{dj.role}</p>
                 </div>
@@ -646,7 +713,7 @@ export default function DPMPage() {
                   </div>
                 </div>
               </div>
-              <div className="p-5 text-center">
+              <div className="px-5 py-4 text-center h-[88px] flex flex-col items-center justify-center">
                 <h3 className="text-lg font-semibold text-zinc-500">
                   Coming Soon
                 </h3>
