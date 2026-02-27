@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
-import { ShoppingBag, X, ChevronRight, Shirt, Tag, Truck, Bell } from "lucide-react";
+import { ShoppingBag, X, ChevronRight, ChevronLeft, Shirt, Tag, Truck, Bell } from "lucide-react";
 import { AnimateIn } from "@/components/ui/animate-in";
 
 interface MerchItem {
@@ -43,6 +43,12 @@ export function DpmMerchStore({ djs }: { djs: DjMerch[] }) {
   const [activeDj, setActiveDj] = useState(0);
   const [selectedItem, setSelectedItem] = useState<MerchItem | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
+
+  const scrollTabs = (dir: "left" | "right") => {
+    if (!tabsRef.current) return;
+    tabsRef.current.scrollBy({ left: dir === "left" ? -150 : 150, behavior: "smooth" });
+  };
 
   const currentDj = djs[activeDj];
 
@@ -94,8 +100,15 @@ export function DpmMerchStore({ djs }: { djs: DjMerch[] }) {
           </div>
 
           {/* DJ tabs — horizontal scroll with avatars */}
-          <div className="border-b border-white/[0.06] bg-zinc-900/40">
-            <div className="flex overflow-x-auto scrollbar-hide">
+          <div className="relative border-b border-white/[0.06] bg-zinc-900/40">
+            {/* Left arrow */}
+            <button
+              onClick={() => scrollTabs("left")}
+              className="absolute left-0 top-0 bottom-0 z-10 flex items-center px-1.5 bg-gradient-to-r from-zinc-900 to-transparent opacity-0 hover:opacity-100 transition-opacity"
+            >
+              <ChevronLeft className="h-4 w-4 text-zinc-400" />
+            </button>
+            <div ref={tabsRef} className="flex overflow-x-auto scrollbar-hide scroll-smooth">
               {djs.map((dj, i) => (
                 <button
                   key={dj.id}
@@ -136,6 +149,13 @@ export function DpmMerchStore({ djs }: { djs: DjMerch[] }) {
                 </button>
               ))}
             </div>
+            {/* Right arrow */}
+            <button
+              onClick={() => scrollTabs("right")}
+              className="absolute right-0 top-0 bottom-0 z-10 flex items-center px-1.5 bg-gradient-to-l from-zinc-900 to-transparent opacity-70 hover:opacity-100 transition-opacity"
+            >
+              <ChevronRight className="h-4 w-4 text-zinc-400" />
+            </button>
           </div>
 
           {/* Store body */}
