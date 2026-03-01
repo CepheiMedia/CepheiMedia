@@ -343,6 +343,17 @@ const venues = [
 
 const events = [
   {
+    id: "spin-gnv",
+    title: "SPIN Tuesday",
+    subtitle: "White Out Party — Launch Party",
+    date: "Mar 3, 2026",
+    venue: "Grove GNV",
+    location: "Gainesville, FL",
+    time: "9 PM 'Til Late",
+    flyer: "/images/event-spin-gnv-cover.png",
+    gallery: ["/images/event-spin-gnv-cover.png", "/images/event-spin-gnv.png"],
+  },
+  {
     id: "dreamhaus-mmw",
     title: "DREAMHAUS",
     subtitle: "Miami Music Week",
@@ -351,6 +362,7 @@ const events = [
     location: "1010 Brickell Ave, Miami FL",
     time: "4 PM - 11:30 PM",
     flyer: "/images/event-dreamhaus-mmw.jpeg",
+    gallery: ["/images/event-dreamhaus-mmw.jpeg"],
   },
 ];
 
@@ -358,6 +370,8 @@ export default function DPMPage() {
   const [selectedDJ, setSelectedDJ] = useState<DJ | null>(null);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [selectedMerch, setSelectedMerch] = useState<MerchItem | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<(typeof events)[number] | null>(null);
+  const [eventGalleryIndex, setEventGalleryIndex] = useState(0);
   const eventsScrollRef = useRef<HTMLDivElement>(null);
   const [activeSection, setActiveSection] = useState("hero");
 
@@ -881,7 +895,8 @@ export default function DPMPage() {
             {events.map((event) => (
               <div
                 key={event.id}
-                className="group relative shrink-0 w-[300px] snap-center"
+                onClick={() => { setSelectedEvent(event); setEventGalleryIndex(0); }}
+                className="group relative shrink-0 w-[300px] snap-center cursor-pointer"
               >
                 <div className="relative overflow-hidden rounded-2xl border border-white/[0.12] bg-zinc-950 shadow-[0_0_50px_-12px_rgba(6,182,212,0.15)] transition-all hover:border-cyan-500/30 hover:shadow-[0_0_60px_-10px_rgba(6,182,212,0.25)]">
                   {/* Flyer image — full visible */}
@@ -892,6 +907,16 @@ export default function DPMPage() {
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
+                    {/* Cephei Media Promotions logo */}
+                    <div className="absolute top-2.5 right-2.5 z-10">
+                      <Image
+                        src="/images/cephei-media-promotions-logo.png"
+                        alt="Cephei Media Promotions"
+                        width={50}
+                        height={50}
+                        className="h-10 w-10 object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]"
+                      />
+                    </div>
                   </div>
 
                   {/* Event info bar below image */}
@@ -1403,6 +1428,89 @@ export default function DPMPage() {
                 )}
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Event Modal */}
+      {selectedEvent && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          onClick={() => setSelectedEvent(null)}
+        >
+          <div
+            className="relative max-h-[90vh] max-w-lg w-full overflow-hidden rounded-2xl border border-white/[0.12] bg-zinc-950 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setSelectedEvent(null)}
+              className="absolute top-3 right-3 z-20 rounded-full bg-black/60 p-2 text-zinc-400 backdrop-blur-sm transition-colors hover:text-white"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {/* Gallery flyer */}
+            <div className="relative w-full overflow-hidden">
+              <Image
+                src={selectedEvent.gallery[eventGalleryIndex]}
+                alt={selectedEvent.title}
+                width={600}
+                height={750}
+                className="w-full h-auto object-contain"
+              />
+              {/* Cephei Media Promotions logo */}
+              <div className="absolute top-3 right-12 z-10">
+                <Image
+                  src="/images/cephei-media-promotions-logo.png"
+                  alt="Cephei Media Promotions"
+                  width={50}
+                  height={50}
+                  className="h-10 w-10 object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]"
+                />
+              </div>
+              {/* Gallery arrows */}
+              {selectedEvent.gallery.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setEventGalleryIndex((prev) => (prev - 1 + selectedEvent.gallery.length) % selectedEvent.gallery.length)}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 z-10 rounded-full bg-black/60 p-2 text-zinc-400 backdrop-blur-sm transition-colors hover:text-white"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={() => setEventGalleryIndex((prev) => (prev + 1) % selectedEvent.gallery.length)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 z-10 rounded-full bg-black/60 p-2 text-zinc-400 backdrop-blur-sm transition-colors hover:text-white"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                  {/* Dots */}
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                    {selectedEvent.gallery.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setEventGalleryIndex(i)}
+                        className={`h-1.5 rounded-full transition-all ${i === eventGalleryIndex ? "w-4 bg-cyan-400" : "w-1.5 bg-white/40"}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Event info */}
+            <div className="border-t border-white/[0.06] bg-zinc-900/90 p-5">
+              <Badge className="mb-2 bg-cyan-500/20 text-cyan-300 border-cyan-500/30 text-xs">
+                {selectedEvent.date}
+              </Badge>
+              <h3 className="text-xl font-bold text-white">{selectedEvent.title}</h3>
+              <p className="text-sm text-cyan-400 font-medium">{selectedEvent.subtitle}</p>
+              <div className="mt-3 flex items-center gap-1.5 text-sm text-zinc-400">
+                <MapPin className="h-3.5 w-3.5" />
+                {selectedEvent.venue} — {selectedEvent.location}
+              </div>
+              <p className="text-xs text-zinc-500 mt-1">{selectedEvent.time}</p>
+            </div>
           </div>
         </div>
       )}
