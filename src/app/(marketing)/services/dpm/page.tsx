@@ -80,7 +80,7 @@ const deliverables = [
   "Electronic press kit guidance",
 ];
 
-// DJ roster — Order: Romi, Fame, Antonee, Ranza, Larkinn, Nick, Genna, Chris Padin, Memo P
+// DJ roster — Order: Romi, Fame, Machina, Antonee, Ranza, Larkinn, Nick, Genna, Chris Padin, Memo P
 const djs = [
   {
     id: "romi-lux",
@@ -143,6 +143,34 @@ const djs = [
       appleMusic: null as string | null,
       soundcloud: "https://soundcloud.com/famesoundss",
       instagram: "https://www.instagram.com/famesoundss",
+      youtube: null as string | null,
+    },
+  },
+  {
+    id: "machina",
+    name: "Machina",
+    logo: "/images/dj-machina-logo-transparent.png",
+    role: "DJ",
+    image: "/images/dj-machina-1.jpg",
+    gallery: ["/images/dj-machina-1.jpg", "/images/dj-machina-2.jpg", "/images/dj-machina-3.jpg"],
+    bio: "As a South Florida native, Machina was instilled with a culturally rich musical background from an early age. He established his DJ roots while attending the University of Central Florida playing house parties and student events. He later began making a name for himself in Palm Beach FL, a city with a reputation for its lavish party scene and the wealthy posh patrons who attend them. Since then Machina has performed in Miami, Manhattan, Chicago, Tampa, Orlando and Ft. Lauderdale and has shared the stage with national and international touring artists such as Westend, Danny Avila, Chapter and Verse, Offaiah, Oscar G, Slugg, Galo, Henry Fong, Bakke, Caleb Dent, Dre. Mendez, Wally Lopez, Pablo Ceballos, Bastidas and many more. Moving forward, Machina is exploring the world of music production and is working relentlessly to develop his own unique sonic flavor to share with the world.",
+    highlights: [
+      "South Florida native with culturally rich musical roots",
+      "Performed in Miami, Manhattan, Chicago, Tampa, Orlando & Ft. Lauderdale",
+      "Shared the stage with Westend, Danny Avila, Chapter and Verse, Oscar G & more",
+      "UCF alumni — started with house parties and student events",
+    ],
+    topTracks: [],
+    merch: [
+      { id: "machina-1", name: "Machina Logo Tee", price: "$34", category: "Tee", description: "Bold Machina logo graphic tee. Heavyweight cotton, oversized fit.", color: "bg-zinc-600" },
+      { id: "machina-2", name: "Machina Snapback", price: "$28", category: "Hat", description: "Structured snapback with embroidered Machina logo. Adjustable strap.", color: "bg-stone-600" },
+      { id: "machina-3", name: "Machina Hoodie", price: "$64", category: "Hoodie", description: "Premium heavyweight hoodie with Machina branding. Fleece-lined, oversized fit.", color: "bg-neutral-600" },
+    ] as MerchItem[],
+    links: {
+      spotify: null as string | null,
+      appleMusic: null as string | null,
+      soundcloud: "https://soundcloud.com/djmachina",
+      instagram: "https://www.instagram.com/djmachina",
       youtube: null as string | null,
     },
   },
@@ -684,7 +712,7 @@ export default function DPMPage() {
                       alt={dj.name}
                       fill
                       className={`transition-transform duration-500 group-hover:scale-105 ${
-                        dj.image.includes("logo") ? "object-contain p-8" : `object-cover ${dj.image.includes("romilux") ? "object-top" : "object-center"}`
+                        dj.image.includes("logo") ? "object-contain p-8" : `object-cover ${dj.image.includes("romilux") || dj.image.includes("machina") ? "object-top" : "object-center"}`
                       }`}
                     />
                   ) : (
