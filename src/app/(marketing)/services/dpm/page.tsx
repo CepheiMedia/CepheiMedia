@@ -80,7 +80,7 @@ const deliverables = [
   "Electronic press kit guidance",
 ];
 
-// DJ roster — Order: Romi, Fame, Machina, Antonee, Ranza, Larkinn, Nick, Genna, Chris Padin, Memo P
+// DJ roster — Order: Romi, Fame, Machina, Antonee, Ranza, Larkinn, Nick, Genna, LoveTrapp, Chris Padin, Memo P
 const djs = [
   {
     id: "romi-lux",
@@ -300,6 +300,33 @@ const djs = [
       appleMusic: null as string | null,
       soundcloud: null as string | null,
       instagram: null as string | null,
+      youtube: null as string | null,
+    },
+  },
+  {
+    id: "lovetrapp",
+    name: "LoveTrapp",
+    role: "DJ / Producer",
+    image: "/images/dj-lovetrapp-1.png",
+    gallery: ["/images/dj-lovetrapp-1.png", "/images/dj-lovetrapp-logo.png"],
+    bio: "LoveTrapp is an electronic music producer originally from Northeast Pennsylvania, now based in South Florida since 2022. His journey into music began in 2013 with a deep appreciation for the diverse sounds of EDM, which eventually inspired him to create his own unique style. Influenced by artists like James Hype, Odd Mob, John Summit, Sullivan King, Zomboy, and Dom Dolla, LoveTrapp blends high-energy beats with genre-defying production to craft tracks that are bold, fresh, and built to connect. Now actively releasing music that challenges conventional boundaries, LoveTrapp is carving out his own lane in the electronic scene — bringing emotionally charged, high-impact records that land exactly when listeners need them most.",
+    highlights: [
+      "Originally from Northeast Pennsylvania, based in South Florida",
+      "Producing since 2013",
+      "High-energy, genre-defying electronic production",
+      "Influenced by James Hype, Odd Mob, John Summit, Sullivan King, Zomboy, Dom Dolla",
+    ],
+    topTracks: [],
+    merch: [
+      { id: "lovetrapp-1", name: "LoveTrapp Logo Tee", price: "$34", category: "Tee", description: "Bold LoveTrapp logo graphic tee. Heavyweight cotton, oversized fit.", color: "bg-purple-600" },
+      { id: "lovetrapp-2", name: "LoveTrapp Snapback", price: "$28", category: "Hat", description: "Structured snapback with embroidered LoveTrapp logo. Adjustable strap.", color: "bg-violet-600" },
+      { id: "lovetrapp-3", name: "LoveTrapp Hoodie", price: "$64", category: "Hoodie", description: "Premium heavyweight hoodie with LoveTrapp branding. Fleece-lined, oversized fit.", color: "bg-indigo-600" },
+    ] as MerchItem[],
+    links: {
+      spotify: "https://open.spotify.com/artist/4gCo76hm6eehHvlxUZSWy8",
+      appleMusic: null as string | null,
+      soundcloud: "https://soundcloud.com/lovetrapp",
+      instagram: "https://www.instagram.com/lovetrappmusic",
       youtube: null as string | null,
     },
   },
@@ -712,7 +739,7 @@ export default function DPMPage() {
                       alt={dj.name}
                       fill
                       className={`transition-transform duration-500 group-hover:scale-105 ${
-                        dj.image.includes("logo") ? "object-contain p-8" : `object-cover ${dj.image.includes("romilux") || dj.image.includes("machina") ? "object-top" : "object-center"}`
+                        dj.image.includes("logo") ? "object-contain p-8" : `object-cover ${dj.image.includes("romilux") || dj.image.includes("machina") || dj.image.includes("lovetrapp") ? "object-top" : "object-center"}`
                       }`}
                     />
                   ) : (
